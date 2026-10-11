@@ -1,0 +1,4 @@
+FROM ubuntu:24.04
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    unbound dnsutils iproute2 iputils-ping traceroute tcpdump \
+    && rm -rf /var/lib/apt/lists/*
