@@ -1,0 +1,11 @@
+$TTL 300
+@   IN SOA ns1.lab.test. admin.lab.test. (
+        1       ; serial
+        3600    ; refresh
+        600     ; retry
+        86400   ; expire
+        300 )   ; negative TTL
+@   IN NS  ns1.lab.test.
+ns1 IN A   10.0.3.10
+www IN A   10.0.3.20
+api IN A   10.0.3.21

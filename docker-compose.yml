@@ -46,9 +46,17 @@ services:
         ipv4_address: 10.0.2.10
 
   server:
-    <<: *netbox
+    build:
+      context: ./network
+      dockerfile: Dockerfile.bind
+    image: cn-bind
     container_name: server
-    command: sh -c "ip route replace default via 10.0.3.254 && sleep infinity"
+    cap_add:
+      - NET_ADMIN
+    command: sh -c "ip route replace default via 10.0.3.254 && mkdir -p /run/named && chown bind:bind /run/named && exec named -g -u bind"
+    volumes:
+      - ./bind/named.conf:/etc/bind/named.conf:ro
+      - ./bind/zones:/etc/bind/zones
     networks:
       net_c:
         ipv4_address: 10.0.3.10

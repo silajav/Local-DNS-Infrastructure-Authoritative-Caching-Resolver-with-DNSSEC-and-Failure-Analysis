@@ -1,0 +1,5 @@
+FROM ubuntu:24.04
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    bind9 bind9-utils bind9-dnsutils iproute2 iputils-ping traceroute tcpdump \
+    && rm -rf /var/lib/apt/lists/*
+
