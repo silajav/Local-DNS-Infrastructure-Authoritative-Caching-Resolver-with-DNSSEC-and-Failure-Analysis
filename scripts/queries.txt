@@ -1,0 +1,3 @@
+www.lab.test A
+api.lab.test A
+ns1.lab.test A
