@@ -48,6 +48,7 @@ services:
     command: sh -c "ip route add 10.0.1.0/24 via 10.0.2.254 && ip route add 10.0.3.0/24 via 10.0.2.253 && exec unbound -d -c /etc/unbound/unbound.conf"
     volumes:
       - ./unbound/unbound.conf:/etc/unbound/unbound.conf:ro
+      - ./bind/zones:/etc/unbound/zones:ro
     networks:
       net_b:
         ipv4_address: 10.0.2.10
