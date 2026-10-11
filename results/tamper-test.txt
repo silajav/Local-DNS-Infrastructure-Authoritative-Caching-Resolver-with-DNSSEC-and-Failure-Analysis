@@ -1,0 +1,42 @@
+=== Tampered zone: expect SERVFAIL ===
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.7-Ubuntu <<>> @10.0.2.10 www.lab.test +dnssec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: SERVFAIL, id: 56151
+;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;www.lab.test.			IN	A
+
+;; Query time: 18 msec
+;; SERVER: 10.0.2.10#53(10.0.2.10) (UDP)
+;; WHEN: Sun Oct 11 11:06:33 UTC 2026
+;; MSG SIZE  rcvd: 41
+
+=== Same query with checking disabled (+cd): data is returned ===
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.7-Ubuntu <<>> @10.0.2.10 www.lab.test +dnssec +cd
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 7524
+;; flags: qr rd ra cd; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;www.lab.test.			IN	A
+
+;; ANSWER SECTION:
+www.lab.test.		60	IN	A	10.0.3.20
+www.lab.test.		60	IN	RRSIG	A 13 3 300 20261110050844 20261011050844 18575 lab.test. XAEaUrt1xp5ZLGunU0yt/ijyKiU5LWsgjEBjf/bbN9bWscq0EA+aLTFk KQ0C3dXi3lUT+fxyAVyUSJSy6z+5pA==
+
+;; Query time: 0 msec
+;; SERVER: 10.0.2.10#53(10.0.2.10) (UDP)
+;; WHEN: Sun Oct 11 11:06:33 UTC 2026
+;; MSG SIZE  rcvd: 161
+
