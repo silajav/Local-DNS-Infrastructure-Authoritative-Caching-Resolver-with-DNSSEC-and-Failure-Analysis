@@ -1,0 +1,82 @@
+; File written on Sun Oct 11 06:08:44 2026
+; dnssec_signzone version 9.18.39-0ubuntu0.24.04.7-Ubuntu
+lab.test.		300	IN SOA	ns1.lab.test. admin.lab.test. (
+					2          ; serial
+					3600       ; refresh (1 hour)
+					600        ; retry (10 minutes)
+					86400      ; expire (1 day)
+					300        ; minimum (5 minutes)
+					)
+			300	RRSIG	SOA 13 2 300 (
+					20261110050844 20261011050844 18575 lab.test.
+					OvQKhSdkiIENxJkWSWb56SpC4pjv5zlokxwc
+					VlP4YCe40+45izPTQgKPaWLHGUfJVaCKSnGw
+					vWQGyo8QwjhU9w== )
+			300	NS	ns1.lab.test.
+			300	RRSIG	NS 13 2 300 (
+					20261110050844 20261011050844 18575 lab.test.
+					F5TBhpHGLhY9SVFzX67t9otbmfuoqwCp60aA
+					T0M7QY3EabAnDsCLL2wssYaGQYLepjq6OLEs
+					jd1lPtGtxdeXFA== )
+			300	NSEC	api.lab.test. NS SOA RRSIG NSEC DNSKEY
+			300	RRSIG	NSEC 13 2 300 (
+					20261110050844 20261011050844 18575 lab.test.
+					eRws2E+praQRYhVVTzGR5Kg+E9dwQWeUJI89
+					s6ixdyeNp6Rvxkwf+z6/W1ahSeZpEQVhbv0v
+					yVhOGgGquKJNDA== )
+			300	DNSKEY	256 3 13 (
+					FY6u9veFKznfX8Oded7eE2QqguyoIrKC541j
+					dIqSApY7yTLJ61xCWGZXPErphZIQ1qIUMXtU
+					mgV0Za+SicHf/w==
+					) ; ZSK; alg = ECDSAP256SHA256 ; key id = 18575
+			300	DNSKEY	257 3 13 (
+					+A/zWvNJM5+t/lp/dH5IJ8FRQHMN5+ojcCHT
+					ZM0H+SlTOApK7kt4n2+dHgxadAicXh4+wt9n
+					QpAxNBfR331I6w==
+					) ; KSK; alg = ECDSAP256SHA256 ; key id = 50300
+			300	RRSIG	DNSKEY 13 2 300 (
+					20261110050844 20261011050844 18575 lab.test.
+					vloJoQJsCRZPS7FXXv9/hHVipQQxGmQVQ2Pd
+					5mDGNqo6lgmwv0xo4Y0uK3sTKUezH9dTWu8R
+					xjN05/njNR/8nQ== )
+			300	RRSIG	DNSKEY 13 2 300 (
+					20261110050844 20261011050844 50300 lab.test.
+					6aNXvSZ4WE0xg+n+aeO16pwJlSUaD54zmYiT
+					sJmXKezf58dF0ub5i0gddFEuYEPnVmxeiI/P
+					xbVzWHTo+Cm/pw== )
+ns1.lab.test.		300	IN A	10.0.3.10
+			300	RRSIG	A 13 3 300 (
+					20261110050844 20261011050844 18575 lab.test.
+					NVRSEopKoLXw1hi7RoGOA/KV9Gm9iNdq8Jte
+					OZmi5HNFtnifRdJS8fzD/dh4HfVxRj3P7SQU
+					h1EUb63y3QDrIQ== )
+			300	NSEC	www.lab.test. A RRSIG NSEC
+			300	RRSIG	NSEC 13 3 300 (
+					20261110050844 20261011050844 18575 lab.test.
+					TJAk0j2MxxW2bImBbSmQdopRN39CAG0+spM2
+					A5mcj/PtxQG7Rwa1MeSrU04cLAqwLk9fcMjB
+					0Yygs54GO8Rnpg== )
+api.lab.test.		300	IN A	10.0.3.21
+			300	RRSIG	A 13 3 300 (
+					20261110050844 20261011050844 18575 lab.test.
+					3Ro+wEdQkPL+LoF9UbsBTku6Ccqv/CYBP/QX
+					IYU1sdnVFW50TKK9vBxskPT5Q5kuoa2eEEPL
+					tauRpJdXXlW6dA== )
+			300	NSEC	ns1.lab.test. A RRSIG NSEC
+			300	RRSIG	NSEC 13 3 300 (
+					20261110050844 20261011050844 18575 lab.test.
+					/m2F02/rYnv6us0GGOs94CO+sHA8VT28NhiB
+					DMlkvilfzlYW4kqJTynwfIDa9KCVALJQ6odp
+					AWpRFPmF99UL0A== )
+www.lab.test.		300	IN A	10.0.3.20
+			300	RRSIG	A 13 3 300 (
+					20261110050844 20261011050844 18575 lab.test.
+					RAEaUrt1xp5ZLGunU0yt/ijyKiU5LWsgjEBj
+					f/bbN9bWscq0EA+aLTFkKQ0C3dXi3lUT+fxy
+					AVyUSJSy6z+5pA== )
+			300	NSEC	lab.test. A RRSIG NSEC
+			300	RRSIG	NSEC 13 3 300 (
+					20261110050844 20261011050844 18575 lab.test.
+					Azbr0BTnEW4+7BTYyKvLH2AzbGZ1JD+vFhw+
+					XOztGdscebscyZdmD6K6E8dohV2OlIJU/lae
+					1gvL4OhsjgqlSg== )
