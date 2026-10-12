@@ -1,0 +1,7 @@
+label,run,cache,dig_ms,total_us,status
+delay100,1,cold,403,426705,NOERROR
+delay100,1,warm,0,11071,NOERROR
+delay100,2,cold,403,412419,NOERROR
+delay100,2,warm,0,10858,NOERROR
+delay100,3,cold,403,420628,NOERROR
+delay100,3,warm,0,8587,NOERROR
