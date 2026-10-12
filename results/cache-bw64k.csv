@@ -1,0 +1,7 @@
+label,run,cache,dig_ms,total_us,status
+bw64k,1,cold,136,149341,NOERROR
+bw64k,1,warm,0,20532,NOERROR
+bw64k,2,cold,136,152102,NOERROR
+bw64k,2,warm,0,13834,NOERROR
+bw64k,3,cold,136,148439,NOERROR
+bw64k,3,warm,0,17606,NOERROR
