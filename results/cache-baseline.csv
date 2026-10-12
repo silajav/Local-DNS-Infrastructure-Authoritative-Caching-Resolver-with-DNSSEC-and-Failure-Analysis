@@ -1,0 +1,7 @@
+label,run,cache,dig_ms,total_us,status
+baseline,1,cold,0,14124,NOERROR
+baseline,1,warm,0,8564,NOERROR
+baseline,2,cold,3,12025,NOERROR
+baseline,2,warm,0,10095,NOERROR
+baseline,3,cold,0,17401,NOERROR
+baseline,3,warm,0,12730,NOERROR
