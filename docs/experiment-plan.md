@@ -26,3 +26,4 @@ Each experiment is run **3 times**. Between experiments the lab is returned to a
 - E6-E7 impair the **client** path (router1), because a warm cache hides upstream problems from a load test.
 - `impair.sh` impairs both directions: a 100 ms delay adds about 200 ms to a round trip.
 - Mean and standard deviation are computed by `analyze.py` (Group D).
+- E3 (packet loss) uses 10 runs instead of 3, because 5% loss rarely hits a short cold lookup.
