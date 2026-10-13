@@ -65,7 +65,7 @@ DNSSEC signatures expire 30 days after signing. If they have expired, run `./scr
 | `analyze.py` | Mean, std dev, tables and graphs |
 
 ## Results
-<Paste the key table(s) from docs/results-tables.md and embed the graphs:>
+
 
 ![Impairments](results/graph-impairments.png)
 ![QPS](results/graph-qps.png)
