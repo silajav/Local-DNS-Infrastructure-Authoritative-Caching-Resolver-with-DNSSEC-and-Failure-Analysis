@@ -6,7 +6,26 @@ CS3001 Computer Networks
 A private DNS system running in Docker: an authoritative server (BIND9) for the made-up zone `lab.test`, a caching resolver (Unbound) with DNSSEC validation, and a client, spread over three subnets and two routers. We measure cold vs warm cache, network impairments (delay, loss, low bandwidth), throughput, and what happens when the authoritative server fails.
 
 ## Architecture
-(see the diagram in the next section)
+```mermaid
+flowchart LR
+  subgraph net_a["net_a 10.0.1.0/24"]
+    C["client<br/>10.0.1.10"]
+  end
+  subgraph net_b["net_b 10.0.2.0/24"]
+    U["resolver (Unbound)<br/>10.0.2.10"]
+  end
+  subgraph net_c["net_c 10.0.3.0/24"]
+    S["server (BIND9)<br/>10.0.3.10"]
+  end
+  R1["router1<br/>10.0.1.254 / 10.0.2.254"]
+  R2["router2<br/>10.0.2.253 / 10.0.3.254"]
+  C -->|"1. query"| R1
+  R1 --> U
+  U -->|"2. cache miss: ask"| R2
+  R2 --> S
+  S -.->|"3. signed answer"| U
+  U -.->|"4. validated answer (ad flag)"| C
+```
 
 | Container | Role | IP |
 |---|---|---|
