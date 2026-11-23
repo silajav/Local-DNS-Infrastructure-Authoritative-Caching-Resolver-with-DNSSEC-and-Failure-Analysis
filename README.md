@@ -42,13 +42,13 @@ Windows with WSL2 (Ubuntu) and Docker Desktop with WSL integration on. Run every
 ```bash
 git clone https://github.com/silajav/Local-DNS-Infrastructure-Authoritative-Caching-Resolver-with-DNSSEC-and-Failure-Analysis.git
 cd Local-DNS-Infrastructure-Authoritative-Caching-Resolver-with-DNSSEC-and-Failure-Analysis
-./scripts/setup.sh              # builds and starts the lab, checks DNS and DNSSEC
+./scripts/setup.sh --resign     # builds and starts the lab, checks DNS and DNSSEC
 ./scripts/run-all.sh --yes      # runs every experiment (about 6 minutes)
 python3 scripts/analyze.py      # tables and graphs
 ```
 Expected output of `setup.sh`: `DNSSEC validation OK (ad flag present).` then `Lab is ready.`
 
-DNSSEC signatures expire 30 days after signing. If they have expired, run `./scripts/setup.sh --resign`.
+> **Note:** DNSSEC signatures expire 30 days after signing. Always include `--resign` on first setup so expired signatures do not cause `SERVFAIL` errors.
 
 ## Scripts
 | Script | Purpose |
