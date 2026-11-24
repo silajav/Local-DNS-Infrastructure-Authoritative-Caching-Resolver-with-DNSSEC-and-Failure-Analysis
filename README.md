@@ -8,24 +8,31 @@ A private DNS system running in Docker: an authoritative server (BIND9) for the 
 ## Architecture
 ```mermaid
 flowchart LR
-  subgraph net_a["net_a 10.0.1.0/24"]
-    C["client<br/>10.0.1.10"]
-  end
-  subgraph net_b["net_b 10.0.2.0/24"]
-    U["resolver (Unbound)<br/>10.0.2.10"]
-  end
-  subgraph net_c["net_c 10.0.3.0/24"]
-    S["server (BIND9)<br/>10.0.3.10"]
-  end
-  R1["router1<br/>10.0.1.254 / 10.0.2.254"]
-  R2["router2<br/>10.0.2.253 / 10.0.3.254"]
-  C -->|"1. query"| R1
-  R1 --> U
-  U -->|"2. cache miss: ask"| R2
-  R2 --> S
-  S -.->|"3. signed answer"| U
-  U -.->|"4. validated answer (ad flag)"| C
+  C["client 10.0.1.10<br/>dig, dnsperf<br/>UDP ephemeral ports"]
+  SWA(["net_a switch<br/>10.0.1.0/24"])
+  R1["router1<br/>eth0 10.0.1.254 / eth1 10.0.2.254<br/>ip_forward=1"]
+  SWB(["net_b switch<br/>10.0.2.0/24"])
+  U["resolver (Unbound) 10.0.2.10<br/>53/udp + 53/tcp<br/>8953/tcp unbound-control (127.0.0.1 only)"]
+  R2["router2<br/>eth0 10.0.2.253 / eth1 10.0.3.254<br/>ip_forward=1"]
+  SWC(["net_c switch<br/>10.0.3.0/24"])
+  S["server (BIND9) 10.0.3.10<br/>53/udp + 53/tcp<br/>zone lab.test, DNSSEC-signed"]
+  C --- SWA --- R1 --- SWB
+  SWB --- U
+  SWB --- R2 --- SWC --- S
+  C -. "1 DNS query to 10.0.2.10:53 (UDP, RD, DO)" .-> U
+  U -. "2 cache miss: query to 10.0.3.10:53 (UDP)" .-> S
+  S -. "3 signed answer (A + RRSIG, DNSKEY)" .-> U
+  U -. "4 validated answer, AD flag" .-> C
 ```
+
+| Flow | From | To | Protocol / port | Notes |
+|---|---|---|---|---|
+| Client query | 10.0.1.10 | 10.0.2.10 | DNS, UDP 53 (TCP 53 for +tcp) | Routed via router1 |
+| Resolver upstream query | 10.0.2.10 | 10.0.3.10 | DNS, UDP 53 | Routed via router2 |
+| DNSSEC validation | resolver | server | DNS, DNSKEY (type 48) | Checked against the DS trust anchor |
+| Reachability tests | client | server | ICMP echo, traceroute | Shows both routers as hops |
+| Management | inside resolver | Unbound | TCP 8953, loopback only | unbound-control |
+
 
 | Container | Role | IP |
 |---|---|---|
