@@ -21,15 +21,15 @@ default via 10.0.3.254 dev eth0
 10.0.3.0/24 dev eth0 proto kernel scope link src 10.0.3.10 
 === client -> server ping ===
 PING 10.0.3.10 (10.0.3.10) 56(84) bytes of data.
-64 bytes from 10.0.3.10: icmp_seq=1 ttl=62 time=0.780 ms
-64 bytes from 10.0.3.10: icmp_seq=2 ttl=62 time=0.231 ms
-64 bytes from 10.0.3.10: icmp_seq=3 ttl=62 time=0.127 ms
+64 bytes from 10.0.3.10: icmp_seq=1 ttl=62 time=0.734 ms
+64 bytes from 10.0.3.10: icmp_seq=2 ttl=62 time=261 ms
+64 bytes from 10.0.3.10: icmp_seq=3 ttl=62 time=0.126 ms
 
 --- 10.0.3.10 ping statistics ---
-3 packets transmitted, 3 received, 0% packet loss, time 2177ms
-rtt min/avg/max/mdev = 0.127/0.379/0.780/0.286 ms
+3 packets transmitted, 3 received, 0% packet loss, time 2185ms
+rtt min/avg/max/mdev = 0.126/87.403/261.350/122.999 ms
 === client -> server traceroute ===
 traceroute to 10.0.3.10 (10.0.3.10), 30 hops max, 60 byte packets
- 1  10.0.1.254  1.764 ms  1.512 ms  1.462 ms
- 2  10.0.2.253  1.429 ms  0.073 ms  0.041 ms
- 3  10.0.3.10  0.063 ms  0.056 ms  0.084 ms
+ 1  10.0.1.254  3.419 ms  0.071 ms  0.026 ms
+ 2  10.0.2.253  0.658 ms  0.072 ms  0.050 ms
+ 3  10.0.3.10  0.056 ms  0.037 ms  0.038 ms

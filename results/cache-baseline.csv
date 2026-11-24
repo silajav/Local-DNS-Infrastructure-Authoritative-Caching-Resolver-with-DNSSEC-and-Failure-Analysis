@@ -1,7 +1,7 @@
 label,run,cache,dig_ms,total_us,status
-baseline,1,cold,0,14124,NOERROR
-baseline,1,warm,0,8564,NOERROR
-baseline,2,cold,3,12025,NOERROR
-baseline,2,warm,0,10095,NOERROR
-baseline,3,cold,0,17401,NOERROR
-baseline,3,warm,0,12730,NOERROR
+baseline,1,cold,3,19393,NOERROR
+baseline,1,warm,0,9963,NOERROR
+baseline,2,cold,7,9286,NOERROR
+baseline,2,warm,0,10173,NOERROR
+baseline,3,cold,0,10890,NOERROR
+baseline,3,warm,0,8281,NOERROR

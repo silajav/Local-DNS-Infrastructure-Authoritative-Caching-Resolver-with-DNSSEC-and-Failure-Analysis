@@ -44,20 +44,24 @@ echo "== Packet captures =="
 docker exec resolver unbound-control flush_zone lab.test >/dev/null
 ./scripts/capture.sh start resolver cold-lookup port 53
 docker exec client dig @10.0.2.10 www.lab.test >/dev/null
+sleep 1
 ./scripts/capture.sh stop resolver cold-lookup
 
 ./scripts/capture.sh start resolver warm-lookup port 53
 docker exec client dig @10.0.2.10 www.lab.test >/dev/null
+sleep 1
 ./scripts/capture.sh stop resolver warm-lookup
 
 docker exec resolver unbound-control flush_zone lab.test >/dev/null
 ./scripts/capture.sh start resolver dnssec port 53
 docker exec client dig @10.0.2.10 www.lab.test +dnssec >/dev/null
+sleep 1
 ./scripts/capture.sh stop resolver dnssec
 
 docker exec resolver unbound-control flush_zone lab.test >/dev/null
 ./scripts/capture.sh start resolver dns-tcp port 53
 docker exec client dig @10.0.2.10 www.lab.test +tcp >/dev/null
+sleep 1
 ./scripts/capture.sh stop resolver dns-tcp
 
 ./scripts/capture.sh start client icmp-routing icmp

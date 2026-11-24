@@ -1,0 +1,4 @@
+time_s,phase,status
+0.00,outage,TIMEOUT
+3.18,outage,TIMEOUT
+8.46,recovery,NOERROR

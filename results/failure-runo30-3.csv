@@ -1,0 +1,16 @@
+time_s,phase,status
+0.00,outage,TIMEOUT
+3.19,outage,TIMEOUT
+6.43,outage,TIMEOUT
+9.65,outage,TIMEOUT
+12.87,outage,TIMEOUT
+16.04,outage,TIMEOUT
+19.27,outage,SERVFAIL
+20.40,outage,SERVFAIL
+21.54,outage,SERVFAIL
+24.84,outage,SERVFAIL
+26.00,outage,SERVFAIL
+27.19,outage,SERVFAIL
+28.41,outage,SERVFAIL
+29.54,outage,SERVFAIL
+31.67,recovery,NOERROR

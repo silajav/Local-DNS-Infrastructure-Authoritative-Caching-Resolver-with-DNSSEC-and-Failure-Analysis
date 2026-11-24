@@ -2,3 +2,9 @@ label,hits,misses,hit_ratio_percent
 baseline-run1,18,3,85.7
 baseline-run2,18,3,85.7
 baseline-run3,18,3,85.7
+delay100-run1,18,3,85.7
+delay100-run2,18,3,85.7
+delay100-run3,18,3,85.7
+loss5-run1,18,3,85.7
+loss5-run2,18,3,85.7
+loss5-run3,18,3,85.7
