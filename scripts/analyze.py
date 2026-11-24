@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compute mean/std dev from results/*.csv, write results/summary.md and graphs."""
+"""Mean/std dev from results/*.csv -> results/summary.md and graphs."""
 import csv, os, statistics as stats
 import matplotlib
 matplotlib.use("Agg")
@@ -45,7 +45,7 @@ CONDS = [("baseline", "Baseline"), ("delay100", "Delay 100 ms"),
          ("loss5", "Loss 5%"), ("bw64k", "BW 64 kbit/s")]
 
 line("# Results summary"); line()
-line("Mean and standard deviation (sample, n-1) per condition. Only NOERROR answers are averaged; failures are counted separately.")
+line("Mean and sample standard deviation (n-1) per condition. Only NOERROR answers are averaged; failures are counted separately.")
 line()
 
 # ---- Resolution time ----
@@ -66,14 +66,17 @@ for key, name in CONDS:
 line()
 
 # ---- Cache hit ratio ----
-line("## Cache hit ratio (cache-stats.sh)"); line()
-rows = load("cache-stats.csv")
-ratios = [num(r["hit_ratio_percent"]) for r in rows if num(r["hit_ratio_percent"]) is not None]
-hits = [num(r["hits"]) for r in rows if num(r["hits"]) is not None]
-miss = [num(r["misses"]) for r in rows if num(r["misses"]) is not None]
-line("| Runs | Mean hits | Mean misses | Mean hit ratio (%) | Std dev (%) |")
-line("|---|---|---|---|---|")
-line(f"| {len(ratios)} | {ms(hits)[0]:.1f} | {ms(miss)[0]:.1f} | {ms(ratios)[0]:.1f} | {ms(ratios)[1]:.1f} |")
+line("## Cache hit ratio (hitratio-test.sh / cache-stats.sh)"); line()
+groups = {}
+for r in load("cache-stats.csv"):
+    groups.setdefault(r["label"].rsplit("-run", 1)[0], []).append(r)
+line("| Condition | Runs | Mean hits | Mean misses | Mean hit ratio (%) | Std dev (%) |")
+line("|---|---|---|---|---|---|")
+for key, rs in groups.items():
+    ratios = [num(r["hit_ratio_percent"]) for r in rs if num(r["hit_ratio_percent"]) is not None]
+    hits = [num(r["hits"]) for r in rs if num(r["hits"]) is not None]
+    miss = [num(r["misses"]) for r in rs if num(r["misses"]) is not None]
+    line(f"| {key} | {len(rs)} | {ms(hits)[0]:.1f} | {ms(miss)[0]:.1f} | {ms(ratios)[0]:.1f} | {ms(ratios)[1]:.1f} |")
 line()
 
 # ---- QPS ----
@@ -95,18 +98,22 @@ line()
 
 # ---- Recovery ----
 line("## Authoritative server failure and recovery (failure-test.sh)"); line()
-rec = [(int(r["run"]), num(r["recovery_seconds"])) for r in load("failure-recovery.csv")
-       if num(r["recovery_seconds"]) is not None]
-line("| Run | Outage (s) | Recovery (s) |")
-line("|---|---|---|")
-for run, v in rec:
-    line(f"| {run} | 15 | {v:.2f} |")
-clean = [v for run, v in rec if run <= 3]
-m3, s3 = ms(clean)
-ma, sa = ms([v for _, v in rec])
+by = {}
+for r in load("failure-recovery.csv"):
+    v = num(r["recovery_seconds"])
+    if v is None or r["run"] == "4" or r["run"].startswith("capture"):
+        continue   # runs recorded with tcpdump running are excluded
+    by.setdefault(int(float(r["outage_seconds"])), []).append(v)
+line("| Outage length (s) | Runs | Mean recovery (s) | Std dev (s) | Min (s) | Max (s) |")
+line("|---|---|---|---|---|---|")
+rec_names, rec_means, rec_sds = [], [], []
+for o in sorted(by):
+    vals = by[o]
+    m, s = ms(vals)
+    rec_names.append(f"{o} s outage"); rec_means.append(m); rec_sds.append(s)
+    line(f"| {o} | {len(vals)} | {m:.2f} | {s:.2f} | {min(vals):.2f} | {max(vals):.2f} |")
 line()
-line(f"- Runs 1-3: mean **{m3:.2f} s**, std dev {s3:.2f} s")
-line(f"- All runs: mean {ma:.2f} s, std dev {sa:.2f} s (run 4 was recorded with tcpdump running)")
+line("Recovery = seconds from restarting BIND9 until the first NOERROR answer. The run recorded while tcpdump was running is reported separately.")
 line()
 
 with open(os.path.join(R, "summary.md"), "w") as f:
@@ -129,12 +136,8 @@ fig.tight_layout(); fig.savefig(os.path.join(R, "graph-impairments.png"), dpi=15
 bars(qnames, qmeans, qsds, "Throughput under normal and impaired conditions",
      "Queries per second (log scale)", "graph-qps.png", log=True)
 
-if rec:
-    fig, ax = plt.subplots(figsize=(6, 4))
-    ax.bar([f"Run {r}" for r, _ in rec], [v for _, v in rec])
-    ax.axhline(m3, linestyle="--", color="gray", label=f"Mean of runs 1-3 = {m3:.2f} s")
-    ax.set_ylabel("Recovery time (s)"); ax.set_title("BIND9 restart to first successful answer")
-    ax.legend(); fig.tight_layout()
-    fig.savefig(os.path.join(R, "graph-recovery.png"), dpi=150); plt.close(fig)
+if rec_means:
+    bars(rec_names, rec_means, rec_sds, "Recovery time after BIND9 restart",
+         "Recovery time (s)", "graph-recovery.png")
 
-print("Wrote results/summary.md and 4 graphs.")
+print("Wrote results/summary.md and graphs.")

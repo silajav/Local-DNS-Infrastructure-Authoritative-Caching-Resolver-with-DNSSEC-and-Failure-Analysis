@@ -3,7 +3,7 @@
 # Output: results/failure-run<N>.csv (timeline) and results/failure-recovery.csv (summary)
 cd "$(dirname "$0")/.."
 RUN=${1:?Usage: $0 <run-number>}
-OUTAGE=15
+OUTAGE=${2:-15}
 MAXWAIT=180
 LOG=results/failure-run$RUN.csv
 SUM=results/failure-recovery.csv
