@@ -113,7 +113,7 @@ for o in sorted(by):
     rec_names.append(f"{o} s outage"); rec_means.append(m); rec_sds.append(s)
     line(f"| {o} | {len(vals)} | {m:.2f} | {s:.2f} | {min(vals):.2f} | {max(vals):.2f} |")
 line()
-line("Recovery = seconds from restarting BIND9 until the first NOERROR answer. The run recorded while tcpdump was running is reported separately.")
+line("Recovery = seconds from restarting BIND9 until the first NOERROR answer. The extra run recorded while tcpdump was running (label capture, 1.16 s) is excluded from this table; see results/failure-recovery.csv.")
 line()
 
 with open(os.path.join(R, "summary.md"), "w") as f:

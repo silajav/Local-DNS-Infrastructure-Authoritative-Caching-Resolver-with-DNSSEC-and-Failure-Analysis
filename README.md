@@ -115,7 +115,7 @@ Times are the wall-clock time of one `dig` inside the client container. They inc
 | 15 | 3 | 1.40 | 0.13 | 1.26 | 1.51 |
 | 30 | 3 | 3.56 | 2.94 | 0.66 | 6.54 |
 
-Recovery = seconds from restarting BIND9 until the first NOERROR answer. The run recorded while tcpdump was running is reported separately.
+Recovery = seconds from restarting BIND9 until the first NOERROR answer. The extra run recorded while tcpdump was running (label capture) is excluded from this table; see results/failure-recovery.csv.
 
 
 
